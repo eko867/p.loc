@@ -1,0 +1,49 @@
+version:  '3' #иначе композ не заработает
+
+services:
+  web:
+    image: nginx:latest #pull the image from registry repo=nginx, tag=latest
+    container_name: nginx_p #псевдоним, который получит контейнер после run образа (д.б. unique)
+    # в nginx.conf обязательно fastcgi_pass php_p:9000;
+    ports: #проброс портов #после правки /etc/hosts контейнер будет доступен по server_name:8080
+    - "${web_port}:80"
+    volumes: #проброс папок #содержимое одной будет является содержимой другой
+    - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/p.loc.conf #линкуем файл конфига nginx
+    - ./docker/nginx/logs:/var/log/nginx
+    - .:/var/www/html #линкуем сайт
+    depends_on:
+    - php #указываем зависимость nginx от php,  контейнер php запуститься раньше nginx.
+    - db
+
+  db:
+    image: mysql:latest
+    container_name: mysql_p # обязательно прописать config/autoload/doctrine.local.php: 'host'=> 'mysql_p'
+    ports:
+    - "${mysql_db_port}:3306"
+    environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=${DB_ALLOW_EMPTY_PASSWORD} #for root
+    - MYSQL_DATABASE=${DB_NAME}
+    - MYSQL_USER=${DB_USER}
+    - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+    - ./docker/MySQL/data:/var/lib/mysql
+
+
+  php: #тут установим fpm и его расширения
+    container_name: php_p
+    build: #забилдит докерфайл в образ(или возьмет образ, если уже был забилден)
+      context: ./docker
+      dockerfile: Dockerfile #Билдим dockerfile указав директорию где он лежит
+    volumes:
+    - .:/var/www/html # чтобы пхп увидел все .php
+    depends_on:
+    - db
+
+  composer:
+    image: composer
+    container_name: composer_p
+    volumes:
+    - .:/app
+    #command: install
+
+

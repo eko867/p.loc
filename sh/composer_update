@@ -1,0 +1,4 @@
+#!/bin/bash
+#-f указывает путь к yml файлу
+#cкрипт запускать в корне сайта, иначе не увидит .env файлик
+sudo docker-compose -f /home/user/www/html/blog/docker-compose.yml run --rm -u 1000 composer bash -c "composer update"
