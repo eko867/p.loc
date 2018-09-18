@@ -22,21 +22,25 @@ class Author
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(name="id")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @ORM\Column(name="name")
+     * @ORM\Column(type="string",length=50)
      */
     protected $name;
 
     /**
      * @ORM\Column(name="email")
+     * @ORM\Column(type="string",length=40)
      */
     protected $email;
 
     /**
      * @ORM\Column(name="phone")
+     * @ORM\Column(type="string",length=18)
      */
     protected $phone;
 

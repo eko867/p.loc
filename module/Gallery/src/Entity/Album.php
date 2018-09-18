@@ -23,31 +23,37 @@ class Album
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(name="id")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @ORM\Column(name="label")
+     * @ORM\Column(type="string",length=50)
      */
     protected $label;
 
     /**
      * @ORM\Column(name="note")
+     * @ORM\Column(type="string",length=200)
      */
     protected $note;
 
     /**
      * @ORM\Column(name="author_id")
+     * @ORM\Column(type="integer")
      */
     protected $authorId;
 
     /**
      * @ORM\Column(name="created_at")
+     * @ORM\Column(type="datetime")
      */
     protected $createdAt;
 
     /**
      * @ORM\Column(name="last_modified_at")
+     * @ORM\Column(type="datetime")
      */
     protected $lastModifiedAt;
 

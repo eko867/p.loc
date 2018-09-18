@@ -20,33 +20,39 @@ class Photo
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue //PRIMARY KEY AUTO_INCREMENT
      * @ORM\Column(name="id")
+     * @ORM\Column(type="integer")
      */
     protected $id;
 
     /**
      * @ORM\Column(name="title")
+     * @ORM\Column(type="string",length=50)
      */
     protected $title;
 
     /**
      * @ORM\Column(name="geo")
+     * @ORM\Column(type="string",length=200)
      */
     protected $geo;
 
     /**
      * @ORM\Column(name="album_id")
+     * @ORM\Column(type="integer")
      */
     protected $albumId;
 
     /**
      * @ORM\Column(name="loaded_at")
+     * @ORM\Column(type="datetime")
      */
     protected $loadedAt;
 
     /**
      * @ORM\Column(name="filepath")
+     * @ORM\Column(type="string",length=200)
      */
     protected $filepath;
 
