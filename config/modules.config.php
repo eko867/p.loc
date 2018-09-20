@@ -16,6 +16,7 @@ return [
     'Zend\Log',
     'Zend\Router',
     'Zend\Validator',
+    'Zend\Form',
     'Application',
     'Gallery'
 ];

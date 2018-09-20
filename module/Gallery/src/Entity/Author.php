@@ -9,6 +9,7 @@
 namespace Gallery\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Этот класс представляет собой автора альбома
@@ -21,39 +22,36 @@ class Author
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(name="id")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      */
     protected $id;
 
     /**
-     * @ORM\Column(name="name")
-     * @ORM\Column(type="string",length=50)
+     * @ORM\Column(name="name", type="string",length=50)
      */
     protected $name;
 
     /**
-     * @ORM\Column(name="email")
-     * @ORM\Column(type="string",length=40)
+     * @ORM\Column(name="email", type="string",length=40)
      */
     protected $email;
 
     /**
-     * @ORM\Column(name="phone")
-     * @ORM\Column(type="string",length=18)
+     * @ORM\Column(name="phone", type="string",length=18)
      */
     protected $phone;
 
     /**
-     * One author has one album
-     * @ORM\OneToOne(targetEntity="\Gallery\Entity\Album", mappedBy="author")
+     * One author has Many albums
+     * @ORM\OneToMany(targetEntity="\Gallery\Entity\Album", mappedBy="author")
      */
-    protected $album;
+    protected $albums;
 
 
     public function __construct()
     {
         $this->album=new Album();
+        $this->albums=new ArrayCollection();
     }
 
     /**
@@ -123,16 +121,16 @@ class Author
     /**
      * @return mixed
      */
-    public function getAlbum()
+    public function getAlbums()
     {
-        return $this->album;
+        return $this->albums;
     }
 
     /**
-     * @param mixed $album
+     * @param mixed $albums
      */
     public function setAlbum($album)
     {
-        $this->album = $album;
+        $this->albums[] = $album;
     }
 }

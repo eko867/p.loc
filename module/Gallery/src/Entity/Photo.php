@@ -21,38 +21,27 @@ class Photo
     /**
      * @ORM\Id
      * @ORM\GeneratedValue //PRIMARY KEY AUTO_INCREMENT
-     * @ORM\Column(name="id")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      */
     protected $id;
 
     /**
-     * @ORM\Column(name="title")
-     * @ORM\Column(type="string",length=50)
+     * @ORM\Column(name="title", type="string",length=50)
      */
     protected $title;
 
     /**
-     * @ORM\Column(name="geo")
-     * @ORM\Column(type="string",length=200)
+     * @ORM\Column(name="geo", type="string",length=200)
      */
     protected $geo;
 
     /**
-     * @ORM\Column(name="album_id")
-     * @ORM\Column(type="integer")
-     */
-    protected $albumId;
-
-    /**
-     * @ORM\Column(name="loaded_at")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="loaded_at", type="datetime")
      */
     protected $loadedAt;
 
     /**
-     * @ORM\Column(name="filepath")
-     * @ORM\Column(type="string",length=200)
+     * @ORM\Column(name="filepath", type="string",length=200)
      */
     protected $filepath;
 
@@ -65,7 +54,7 @@ class Photo
 
     public function __construct()
     {
-        $this->album=new Album();
+        $this->createdAt=new \DateTime();
     }
 
     /**
@@ -119,17 +108,17 @@ class Photo
     /**
      * @return mixed
      */
-    public function getAlbumId()
+    public function getLoadedAt()
     {
-        return $this->albumId;
+        return $this->loadedAt;
     }
 
     /**
-     * @param mixed $albumId
+     * @param mixed $loadedAt
      */
-    public function setAlbumId($albumId)
+    public function setLoadedAt($loadedAt)
     {
-        $this->albumId = $albumId;
+        $this->loadedAt = $loadedAt;
     }
 
     /**
@@ -151,22 +140,6 @@ class Photo
     /**
      * @return mixed
      */
-    public function getLoadedAt()
-    {
-        return $this->loadedAt;
-    }
-
-    /**
-     * @param mixed $loadedAt
-     */
-    public function setLoadedAt($loadedAt)
-    {
-        $this->loadedAt = $loadedAt;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getAlbum()
     {
         return $this->album;
@@ -178,6 +151,5 @@ class Photo
     public function setAlbum($album)
     {
         $this->album = $album;
-        $album->setPhoto($this);
     }
 }

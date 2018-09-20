@@ -1,0 +1,55 @@
+.layout {
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+    background-color: white;
+    border-collapse: collapse;
+    font-family: Calibri;
+}
+
+.layout tr td {
+    padding: 20px;
+    vertical-align: top;
+    border: solid 1px gray;
+}
+
+.header {
+    font-size: 30px;
+}
+
+.footer {
+    text-align: center;
+}
+
+.sidebarHeader {
+    font-size: 20px;
+}
+
+.sidebar u1 {
+    padding-left: 20px;
+}
+
+a, a:visited {
+    color:darkgreen;
+}
+
+
+
+
+.oldTable, .oldTable td {
+    border: solid black 1px;
+    border-collapse: collapse;
+}
+
+#layout {
+    width: 800px;
+    margin: auto;
+}
+
+#layout td {
+    padding: 20px;
+}
+
+#sidebar {
+    width: 300px
+}

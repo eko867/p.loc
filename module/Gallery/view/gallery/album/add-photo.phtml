@@ -1,0 +1,39 @@
+<?php
+$form = $this->form;
+#$form->get('submit')->setAttributes(['class'=>'btn btn-primary']);
+$form->prepare();
+?>
+
+<h1>Загрузка фотографии</h1>
+
+<p>
+    Пожалуйста, заполните следующую форму и нажмите кнопку <i>Upload</i>.
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <?= $this->form()->openTag($form); ?>
+
+        <div class="form-group">
+            <!--заголовок фотографии-->
+            <?= $this->formLabel($form->get('title')); ?>
+            <?= $this->formElement($form->get('title')); ?>
+            <?= $this->formElementErrors($form->get('title')); ?>
+            <br>
+            <!--адрес съемки фотографии-->
+            <?= $this->formLabel($form->get('geo')); ?>
+            <?= $this->formElement($form->get('geo')); ?>
+            <?= $this->formElementErrors($form->get('geo')); ?>
+            <br>
+            <!--выбор файла для загрузки фотографии-->
+            <?= $this->formLabel($form->get('file')); ?>
+            <?= $this->formElement($form->get('file')); ?>
+            <?= $this->formElementErrors($form->get('file')); ?>
+            <br>
+            <!--<div class="hint">(PNG and JPG formats are allowed)</div>-->
+        </div>
+        <!-- кнопка-->
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>

@@ -16,4 +16,3 @@ RUN apt update && apt install -y \
   && docker-php-ext-install -j$(nproc) zip \
   && docker-php-ext-install -j$(nproc) pdo_mysql \
   && docker-php-ext-install -j$(nproc) exif \
-

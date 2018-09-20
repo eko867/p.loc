@@ -36,6 +36,7 @@ services:
       dockerfile: Dockerfile #Билдим dockerfile указав директорию где он лежит
     volumes:
     - .:/var/www/html # чтобы пхп увидел все .php
+    - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     depends_on:
     - db
 

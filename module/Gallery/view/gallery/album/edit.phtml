@@ -1,0 +1,55 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: user
+ * Date: 20.09.18
+ * Time: 9:32
+ */
+$form = $this->form;
+$form->get('submit')->setValue('Save');
+$form->prepare();
+?>
+
+<h1>Редактирование описания альбома</h1>
+
+<p>
+    Пожалуйста, заполните следующую форму и нажмите кнопку <i>Save</i>.
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <?= $this->form()->openTag($form); ?>
+
+        <div class="form-group">
+            <!--заголовок альбома-->
+            <?= $this->formLabel($form->get('label')); ?>
+            <?= $this->formElement($form->get('label')); ?>
+            <?= $this->formElementErrors($form->get('label')); ?>
+            <br>
+            <!--адрес описание альбома-->
+            <?= $this->formLabel($form->get('note')); ?>
+            <?= $this->formElement($form->get('note')); ?>
+            <?= $this->formElementErrors($form->get('note')); ?>
+            <br>
+            <!--имя автора-->
+            <?= $this->formLabel($form->get('authorName')); ?>
+            <?= $this->formElement($form->get('authorName')); ?>
+            <?= $this->formElementErrors($form->get('authorName')); ?>
+            <br>
+            <!--email-автора-->
+            <?= $this->formLabel($form->get('email')); ?>
+            <?= $this->formElement($form->get('email')); ?>
+            <?= $this->formElementErrors($form->get('email')); ?>
+            <br>
+            <!--фото автора-->
+            <?= $this->formLabel($form->get('phone')); ?>
+            <?= $this->formElement($form->get('phone')); ?>
+            <?= $this->formElementErrors($form->get('phone')); ?>
+            <br>
+            <!--<div class="hint">(PNG and JPG formats are allowed)</div>-->
+        </div>
+        <!-- кнопка-->
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>
