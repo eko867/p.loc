@@ -178,4 +178,9 @@ class Album
         $this->photos = $photos;
     }
 
+    public function setPhoto($photo)
+    {
+        $this->photos[]=$photo;
+    }
+
 }

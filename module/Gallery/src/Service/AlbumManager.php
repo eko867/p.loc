@@ -99,6 +99,24 @@ class AlbumManager
         return file_get_contents($filepath);
     }
 
+    public function addPhoto($album,$data)
+    {
+        $photo=new Photo();
+        $photo->setTitle($data['title']);
+        $photo->setGeo($data['geo']);
+        $photo->setFilepath('srccc');//?
+        $photo->setAlbum($album);
+
+        $album->setPhoto($photo);
+
+        // Добавляем сущность в менеджер сущностей.
+        $this->entityManager->persist($photo);
+
+        // Применяем изменения к БД.
+        $this->entityManager->flush();
+
+    }
+
 
     public function editAlbum($album,$data)
     {

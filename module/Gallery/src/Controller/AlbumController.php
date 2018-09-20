@@ -169,7 +169,9 @@ class AlbumController extends AbstractActionController
         //экшн добавления фотографии в выбранный альбом
         //узнаем idAlbum для редактирования
         $idAlbum=$this->params()->fromRoute('idAlbum',-1);
-        //? не требует своего view
+        // Находим существующий альбом в базе данных.
+        $album = $this->entityManager->getRepository(Album::class)->findOneById($idAlbum);
+
         $form=new PhotoForm();
 
         // Проверяем, отправил ли пользователь форму.
@@ -194,7 +196,10 @@ class AlbumController extends AbstractActionController
 
                 //потому что метод getData() запустит  для формы фильтр RenameUpload,
                 // который перемещает выгруженный на сервер файл в его постоянный каталог.
-                $form->getData();
+                $data1=$form->getData();
+                dump($data1);//мб там будет имя файлика после аплода?
+                $this->albumManager->addPhoto($album,$data1);
+
                 return $this->redirect()->toRoute('albums');
             }
         }
