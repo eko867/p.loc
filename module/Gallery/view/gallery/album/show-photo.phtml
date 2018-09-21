@@ -1,0 +1,13 @@
+<?php
+$album=$this->album;
+$photo=$this->photo;
+?>
+
+<a href="<?= $this->url('albums/alb', ['idAlbum'=>$album->getId()]) ?>">Вернуться к альбому</a>
+<br>
+<br>
+<p>Заголовок: <?= $this->escapeHtml($photo->getTitle()); ?></p>
+<p>Место съемки: <?= $this->escapeHtml($photo->getGeo()); ?></p>
+<p>Дата загрузки: <?= $photo->getLoadedAt()->format(DateTime::ATOM) ?></p>
+<br>
+<img src="<?=$photo->getFilepath()?>" >

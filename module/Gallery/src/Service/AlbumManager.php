@@ -68,35 +68,29 @@ class AlbumManager
         $this->entityManager->flush();
     }
 
-    public function getUploadedFiles()
+    public function editAlbum($album,$data)
     {
+        $album->setLabel($data['label']);
+        $album->setNote($data['note']);
+        $album->setLastModifiedAt(new \DateTime());
+        $author=$album->getAuthor();
+        $author->setName($data['authorName']);
+        $author->setPhone($data['phone']);
+        $author->setEmail($data['email']);
 
-        // Просматриваем каталог и создаем список выгруженных файлов.
-        $files = [];
-        $handle  = opendir($this->saveToDir);
-        while (($entry = readdir($handle)) !== false) {
-            if($entry=='.' || $entry=='..')
-                continue; // Пропускаем текущий и родительский каталоги.
-            $files[] = $entry; //остальные файлы вносим в список
+        // Применяем изменения к БД //persist не нужен, т.к. сущность уже существующая
+        $this->entityManager->flush();
+    }
+
+    public function deleteAlbum($album)
+    {
+        //удаляем альбом и связанные с ним фотографии
+        $photos=$album->getPhotos();
+        foreach ($photos as $photo) {
+            $this->entityManager->remove($photo);
         }
-
-        //список файлов
-        return $files;
-    }
-
-    public function getImagePathByFilename($filename)
-    {
-        //для безопасности удаляем слеши / \ из имени файла
-        $filename = str_replace("/", "", $filename);
-        $filename = str_replace("\\", "", $filename);
-        //возращаем путь для загрузки файла
-        return $this->uploadDir.$filename;
-    }
-
-    public function getImageFileContent($filepath)
-    {
-        // Возвращает содержимое файла изображения. При ошибке возвращает булевое false.
-        return file_get_contents($filepath);
+        $this->entityManager->remove($album);
+        $this->entityManager->flush();
     }
 
     public function addPhoto($album,$data)
@@ -106,8 +100,11 @@ class AlbumManager
         $photo->setGeo($data['geo']);
         $photo->setFilepath('srccc');//?
         $photo->setAlbum($album);
+        $filepath=ltrim($data['file']['tmp_name'], '.'); //удалим первую точку
+        $photo->setFilepath($filepath);
 
         $album->setPhoto($photo);
+        $album->setLastModifiedAt(new \DateTime());
 
         // Добавляем сущность в менеджер сущностей.
         $this->entityManager->persist($photo);
@@ -117,20 +114,22 @@ class AlbumManager
 
     }
 
-
-    public function editAlbum($album,$data)
+    public function editPhoto($photo,$data)
     {
-        $album->setLabel($data['label']);
-        $album->setNote($data['note']);
-        $album->setAuthorId('777');
-        $album->setLastModifiedAt(date("Y-m-d H:i:s"));
+        $photo->setTitle($data['title']);
+        $photo->setGeo($data['geo']);
 
         // Применяем изменения к БД //persist не нужен, т.к. сущность уже существующая
         $this->entityManager->flush();
     }
 
-    public function deleteAlbum()
+    public function deletePhoto($photo)
     {
-
+        //удаляем фото из альбома
+        $album=$photo->getAlbum();
+        $album->unsetPhoto($photo);
+        //и удаляем само фото
+        $this->entityManager->remove($photo);
+        $this->entityManager->flush();
     }
 }

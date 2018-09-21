@@ -183,4 +183,10 @@ class Album
         $this->photos[]=$photo;
     }
 
+    public function unsetPhoto($photo)
+    {
+        $this->photos->removeElement($photo);
+    }
+
+
 }

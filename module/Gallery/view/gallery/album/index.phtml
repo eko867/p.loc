@@ -1,28 +1,35 @@
-<html>
-<head>
-    <title>Название страницы</title>
-    <head>
-<body>
-
-
+<?php
+$albums=$this->albums;
+?>
 <h1>Альбомы</h1>
 <br>
 <a href="<?=$this->url('albums/create') ?>">Добавить альбом</a>
 
-<table class="oldTable" id="layout">
+<table border="2">
     <tr>
-        <th> Превью </th>
+        <th> Превью (последнее фото) </th>
         <th> Название </th>
         <th> Описание </th>
         <th> Автор </th>
-        <th> Изменен </th>
-        <th> Последнее фото </th>
+        <th> Время последнего редактирования </th>
+        <th> Время последнего добавления фото </th>
+        <th> Фотографий в альбоме</th>
+        <th> Управление </th>
     </tr>
 
 <?php foreach($albums as $album): ?>
     <tr>
         <td>
-            IMG
+            <a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'actionAlbum'=>'view']) ?>">
+                <?php
+                    $lastPhoto=$album->getPhotos()->last();
+                    if ($lastPhoto==null) {
+                        echo 'None';
+                    } else {
+                        echo '<img src="'.$lastPhoto->getFilepath().'" height="50px">';
+                    }
+                ?>
+            </a>
         </td>
         <td>
             <p><?= $this->escapeHtml($album->getLabel()); ?></p>
@@ -42,20 +49,35 @@
         </td>
 
         <td>
-            <p> TODO <!-- <?= $this->escapeHtml($album->getLastModifiedAt()->format(DateTime::ATOM)); ?> --></p>
+            <p><?php
+             if ($lastPhoto==null) {
+                 echo '-';
+             } else {
+                 echo $lastPhoto->getLoadedAt()->format(DateTime::ATOM);
+             }
+              ?>
+            </p>
+        </td>
+
+        <td>
+            <p>
+                <?= count($album->getPhotos()->toArray()) ?>
+            </p>
         </td>
 
 
         <td>
-            <table>
+            <table >
                 <tr>
                     <td>
                         <a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'action'=>'edit']) ?>">Редактировать описание</a>
+                        <br>
+                        <br>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'action'=>'newphoto']) ?>">Добавить фото в альбом</a>
+                        <a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'action'=>'newPhoto']) ?>">Добавить фото в альбом</a>
                     </td>
                 </tr>
             </table>

@@ -82,7 +82,7 @@ return [
                     'alb' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route'    => '/:idAlbum[/:action]', #action: edit, delete, view, newphoto)
+                            'route'    => '/:idAlbum[/:action]', #action: edit, delete, view, newPhoto)
                             'constraints' => [ //ограничения записанные через регулярки
                                 'action' => '[a-zA-Z]*',
                                 'idAlbum' => '[0-9]+',
@@ -96,17 +96,44 @@ return [
                         'may_terminate' => true,
 
                             'child_routes' =>[
-                                'photos' => [ // работа с фотографиями
+
+                                'photos_show' => [ // работа с фотографиями
                                     'type' => Segment::class,
                                     'options' => [
-                                        'route'    => '/photos[/:action][/:idPhoto]', #action: delete, show, edit)
-                                        'constraints' => [ // ограничения записанные через регулярки
-                                            'action' => '[a-zA-Z]*',
+                                        'route'    => '/photos/:idPhoto',
+                                        'constraints' => [ //ограничения записанные через регулярки
                                             'idPhoto' => '[0-9]+',
                                         ],
                                         'defaults' => [
                                             'controller' => Controller\AlbumController::class,
-                                            'action'     => 'show',
+                                            'action'     => 'showPhoto',
+                                        ],
+                                    ],
+                                ],
+
+                                'photos_delete' => [ // работа с фотографиями
+                                    'type' => Segment::class,
+                                    'options' => [
+                                        'route'    => '/photos/:idPhoto/delete',
+                                        'constraints' => [ //ограничения записанные через регулярки
+                                            'idPhoto' => '[0-9]+',
+                                        ],
+                                        'defaults' => [
+                                            'controller' => Controller\AlbumController::class,
+                                            'action'     => 'deletePhoto',
+                                        ],
+                                    ],
+                                ],
+                                'photos_edit' => [ // работа с фотографиями
+                                    'type' => Segment::class,
+                                    'options' => [
+                                        'route'    => '/photos/:idPhoto/edit',
+                                        'constraints' => [ //ограничения записанные через регулярки
+                                            'idPhoto' => '[0-9]+',
+                                        ],
+                                        'defaults' => [
+                                            'controller' => Controller\AlbumController::class,
+                                            'action'     => 'editPhoto',
                                         ],
                                     ],
                                 ],
@@ -115,40 +142,6 @@ return [
                 ]
             ],
 
-
-
-
-            /*
-            'albums' => [ // страница со списком альбомов
-                'type' => Segment::class,
-                'options' => [
-                    'route'    => '/albums[/:idAlbum][/:action]', #action: edit, delete, view, newphoto)
-                    'constraints' => [ //ограничения записанные через регулярки
-                        'action' => '[a-zA-Z]*',
-                        'idAlbum' => '[0-9]+',
-                    ],
-                    'defaults' => [
-                        'controller' => Controller\AlbumController::class,
-                        'action'     => 'index',
-                    ],
-                ],
-                'child_routes' =>[
-                    'photos' => [ // работа с фотографиями
-                        'type' => Segment::class,
-                        'options' => [
-                            'route'    => '/photos[/:action][/:idPhoto]', #action: delete, show, edit)
-                            'constraints' => [ // ограничения записанные через регулярки
-                                'action' => '[a-zA-Z]*',
-                                'idPhoto' => '[0-9]+',
-                            ],
-                            'defaults' => [
-                                'controller' => Controller\AlbumController::class,
-                                'action'     => 'show',
-                            ],
-                        ],
-                    ],
-                ],
-            ], */ //end albums
         ],//end routes
      ],//end router
 

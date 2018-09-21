@@ -1,0 +1,72 @@
+<?php
+$album=$this->album;
+$photosArrayCollection=$album->getPhotos();
+$photos=$photosArrayCollection->toArray();
+?>
+<p>
+    <a href="<?= $this->url('albums') ?>" ><= назад в галерею</a>
+</p>
+<br>
+
+<p>
+    Вы cмотрите альбом <?= '# '.$album->getId().' -  '.$album->getLabel() ?>
+</p>
+<br>
+<a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'action'=>'delete']) ?>">Удалить данный альбом</a>
+<br>
+<a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'action'=>'newPhoto']) ?>">Добавить новое фото</a>
+
+<? if(count($photos)==0): ?>
+    <p>Это пустой альбом</p>
+    <br>
+<? else:?>
+
+    <table border="2">
+        <tr>
+            <th> Изображение </th>
+            <th> Заголовок </th>
+            <th> Место съемки </th>
+            <th> Загружен </th>
+            <th> Опции </th>
+        <?php foreach($photos as $photo): ?>
+            <tr>
+                <td>
+                    <a href="<?=$this->url('albums/alb/photos_show',['idAlbum'=>$album->getId(), 'idPhoto'=>$photo->getId()]) ?>">
+                        <img src="<?=$photo->getFilepath()?>" width="250px"> <!--preview -->
+                    </a>
+                </td>
+                <td>
+                    <p><?= $this->escapeHtml($photo->getTitle()); ?></p>
+                </td>
+                <td>
+                    <p><?= $this->escapeHtml($photo->getGeo()); ?></p>
+                </td>
+                <td>
+                    <p>
+                        <?= $photo->getLoadedAt()->format(DateTime::ATOM) ?>
+                    </p>
+                </td>
+
+
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <a href="<?=$this->url('albums/alb/photos_edit',['idAlbum'=>$album->getId(), 'action'=>'view', 'idPhoto'=>$photo->getId()]) ?>">Редактировать описание фото</a>
+                                <br>
+                                <br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="<?=$this->url('albums/alb/photos_delete',['idAlbum'=>$album->getId(), 'action'=>'view', 'idPhoto'=>$photo->getId()]) ?>">Удалить фото</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <br>
+        <?php endforeach; ?>
+    </table>
+
+<? endif;?>

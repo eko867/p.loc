@@ -2,10 +2,14 @@
 $form = $this->form;
 #$form->get('submit')->setAttributes(['class'=>'btn btn-primary']);
 $form->prepare();
+$album=$this->album;
 ?>
 
 <h1>Загрузка фотографии</h1>
-
+<p>
+    Вы добавляете фото в альбом <?= '# '.$album->getId().' -  '.$album->getLabel() ?>
+</p>
+<br>
 <p>
     Пожалуйста, заполните следующую форму и нажмите кнопку <i>Upload</i>.
 </p>

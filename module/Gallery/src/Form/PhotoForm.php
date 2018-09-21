@@ -145,6 +145,13 @@ class PhotoForm extends Form
 
                 ['name'    => 'FileIsImage'], //является ли файл изображение JPG PNG GIT
 
+                [
+                    'name'    => 'FileSize',
+                    'options' => [
+                        'max' => '20MB'
+                    ]
+                ]
+
                 /*
                 [
                     'name'    => 'FileImageSize', //допустимые размеры изображения

@@ -1,0 +1,40 @@
+<?php
+$form = $this->form;
+$form->get('submit')->setValue('Save');
+$form->prepare();
+$photo=$this->photo;
+?>
+
+<a href="<?=$this->url('albums/alb/photos_delete',['idAlbum'=>$photo->getAlbum()->getId(), 'action'=>'view', 'idPhoto'=>$photo->getId()]) ?>">Удалить эту фотографию</a>
+<br>
+
+<h1>Редактирование описания фото</h1>
+<br>
+<img src="<?=$photo->getFilepath()?>" height="100px">
+<br>
+<p>
+    Пожалуйста, заполните следующую форму и нажмите кнопку <i>Save</i>.
+</p>
+
+<div>
+    <div>
+        <?= $this->form()->openTag($form); ?>
+
+        <div>
+            <!--заголовок фото-->
+            <?= $this->formLabel($form->get('title')); ?>
+            <?= $this->formElement($form->get('title')); ?>
+            <?= $this->formElementErrors($form->get('title')); ?>
+            <br>
+            <!--адрес съемки-->
+            <?= $this->formLabel($form->get('geo')); ?>
+            <?= $this->formElement($form->get('geo')); ?>
+            <?= $this->formElementErrors($form->get('geo')); ?>
+            <br>
+
+        </div>
+        <!-- кнопка-->
+        <?= $this->formElement($form->get('submit')); ?>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>

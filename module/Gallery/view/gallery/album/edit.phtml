@@ -8,9 +8,18 @@
 $form = $this->form;
 $form->get('submit')->setValue('Save');
 $form->prepare();
+$album=$this->album;
 ?>
 
+<a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'action'=>'delete']) ?>">Удалить данный альбом</a>
+<br>
+
 <h1>Редактирование описания альбома</h1>
+
+<p>
+    Вы редактирует альбом <?= '# '.$album->getId().' -  '.$album->getLabel() ?>
+</p>
+<br>
 
 <p>
     Пожалуйста, заполните следующую форму и нажмите кнопку <i>Save</i>.
