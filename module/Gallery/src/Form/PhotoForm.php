@@ -136,14 +136,16 @@ class PhotoForm extends Form
             'validators' => [//для файлов валидаторы первоочереднее фильтров
 
                 ['name'    => 'FileUploadFile'], //действительно ли файл был выгружен на сервер через POST
+                /*
                 [
                     'name'    => 'FileMimeType', //является ли файл изображение JPEG PNG //требует пхп-расширения fileinfo
                     'options' => [
                         'mimeType'  => ['image/jpeg', 'image/png']
                     ]
                 ],
+                */
 
-                ['name'    => 'FileIsImage'], //является ли файл изображение JPG PNG GIT
+                //['name'    => 'FileIsImage'], //является ли файл изображение JPG PNG GIT
 
                 [
                     'name'    => 'FileSize',
