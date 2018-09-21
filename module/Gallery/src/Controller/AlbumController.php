@@ -133,7 +133,7 @@ class AlbumController extends AbstractActionController
     public function addPhotoAction() //TODO
     {
         //экшн добавления фотографии с первоначальным выбором альбома с пом.селектора
-        //? не требует своего view
+
         $form=new PhotoForm();
 
         // Проверяем, отправил ли пользователь форму.
@@ -146,6 +146,11 @@ class AlbumController extends AbstractActionController
                 $request->getFiles()->toArray()
             );
 
+            //узнаем idAlbum для редактирования (какой select был выбран)
+            $idAlbum=$this->$data['idAlbum'];
+            // Находим существующий альбом в базе данных.
+            $album = $this->entityManager->getRepository(Album::class)->findOneById($idAlbum);
+
             //Передаем данные в объект класса формы
             $form->setData($data);
 
@@ -154,14 +159,22 @@ class AlbumController extends AbstractActionController
 
                 //потому что метод getData() запустит  для формы фильтр RenameUpload,
                 // который перемещает выгруженный на сервер файл в его постоянный каталог.
-                $form->getData();
+                $data1=$form->getData();
+                dump($data1);//мб там будет имя файлика после аплода?
+                $this->albumManager->addPhoto($album,$data1);
 
                 return $this->redirect()->toRoute('albums');
             }
         }
 
-        //если POST-отправки не было, то отдаем пользователю пустую форму
-        return new ViewModel(['form'=>$form]);
+
+        //cоздаем запрос на языке DSQL через методы entityManager'a
+        //далее эти альбомы альбомы отправятся в селектор вьюшки
+        $query = $this->getEntityManager()->createQuery('SELECT u FROM Gallery\Entity\Album AS u ORDER BY u.id DESC');
+        $albums = $query->getResult(); //вернется массив с объектками Blog\Entity\Category
+
+        //если POST-отправки не было, то отдаем пользователю пустую форму и альбомы для селектора
+        return new ViewModel(['form'=>$form, 'album'=>$albums]);
     }
 
     public function newPhotoAction() //TODO
