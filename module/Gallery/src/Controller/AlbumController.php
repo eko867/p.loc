@@ -8,6 +8,8 @@
 
 namespace Gallery\Controller;
 
+use Doctrine\ORM\EntityManager;
+use Gallery\Repository\PhotoRepository;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Gallery\Form\AlbumForm;
@@ -15,13 +17,15 @@ use Gallery\Form\PhotoForm;
 use Gallery\Entity\Album;
 use Gallery\Entity\Author;
 use Gallery\Entity\Photo;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
 
 
 class AlbumController extends AbstractActionController
 {
     /**
-     * Entity manager.
-     * @var Doctrine\ORM\EntityManager
+     * @var EntityManager
      */
     private $entityManager;
 
@@ -137,18 +141,49 @@ class AlbumController extends AbstractActionController
 
     public function viewAction()
     {
-        //экшн просмотра альбома или фотографии в альбоме
+        //экшн просмотра альбома или фотографии в альбоме + paginator
+
+        //фотографий на странице
+        $photosPerPage=2;
+
+        //просматриваемая страница
+        $page = $this->params()->fromQuery('page', 1);
+        /*
+        $viewDiap=$this->params()->fromRoute('viewDiap',-1);
+        $start_end=explode('-',$viewDiap);
+        $startDiap=$start_end[0];
+        $endDiap=$start_end[1];
+        */
+
         //узнаем idAlbum для просмотра
         $idAlbum=$this->params()->fromRoute('idAlbum',-1);
 
         // Находим существующий альбом в базе данных.
         $album = $this->entityManager->getRepository(Album::class)->findOneById($idAlbum);
+
+        /** @var \Doctrine\ORM\Query $photos */
+        $photos = $this->entityManager->getRepository(Photo::class)->findPhotosByAlbumId($idAlbum);
+        //$numPhotos=count($album->getPhotos()->toArray());
+        //dump($photos->execute());
+        //die();
+
+
         if($album == null){
             $this->getResponse()->setStatusCode(404);
             return;
         }
 
-        return new ViewModel(['album'=>$album]);
+        //зендовский пагинатор оч.общий, с пом.адаптера мы предоставляем ему данные об сущностях
+        //то есть сообщаем ему о фотках для пагинации
+        $adapter = new DoctrineAdapter(new ORMPaginator($photos,false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage($photosPerPage);
+        $paginator->setCurrentPageNumber($page);
+        dump($page);
+
+        //return new ViewModel(['album'=>$album]);
+        //вместо всех фоток альбома, передаем фотки конретной страницы за счет пагинатора
+        return new ViewModel(['album'=>$album, 'photos'=> $paginator, 'albumManager'=>$this->albumManager]);
     }
 
     public function deleteAction()

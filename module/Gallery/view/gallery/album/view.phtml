@@ -1,7 +1,9 @@
 <?php
 $album=$this->album;
-$photosArrayCollection=$album->getPhotos();
-$photos=$photosArrayCollection->toArray();
+$photos=$this->photos;
+
+//$photosArrayCollection=$album->getPhotos();
+//$photos=$photosArrayCollection->toArray();
 ?>
 <p>
     <a href="<?= $this->url('albums') ?>" ><= назад в галерею</a>
@@ -16,10 +18,10 @@ $photos=$photosArrayCollection->toArray();
 <br>
 <a href="<?=$this->url('albums/alb',['idAlbum'=>$album->getId(), 'action'=>'newPhoto']) ?>">Добавить новое фото</a>
 
-<? if(count($photos)==0): ?>
+<?php if(count($photos)==0): ?>
     <p>Это пустой альбом</p>
     <br>
-<? else:?>
+<?php else:?>
 
     <table border="2">
         <tr>
@@ -32,18 +34,26 @@ $photos=$photosArrayCollection->toArray();
             <tr>
                 <td>
                     <a href="<?=$this->url('albums/alb/photos_show',['idAlbum'=>$album->getId(), 'idPhoto'=>$photo->getId()]) ?>">
-                        <img src="<?=$photo->getFilepath()?>" width="250px"> <!--preview -->
+                        <img src="<?=
+                                    $photo->getFilepath()
+                                    ?>" width="250px"> <!--preview -->
                     </a>
                 </td>
                 <td>
-                    <p><?= $this->escapeHtml($photo->getTitle()); ?></p>
+                    <p><?=
+                            $this->escapeHtml($photo->getTitle());
+                            ?></p>
                 </td>
                 <td>
-                    <p><?= $this->escapeHtml($photo->getGeo()); ?></p>
+                    <p><?=
+                        $this->escapeHtml($photo->getGeo());
+                        ?></p>
                 </td>
                 <td>
                     <p>
-                        <?= $photo->getLoadedAt()->format(DateTime::ATOM) ?>
+                        <?=
+                         $photo->getLoadedAt()->format(DateTime::ATOM)
+                         ?>
                     </p>
                 </td>
 
@@ -69,4 +79,12 @@ $photos=$photosArrayCollection->toArray();
         <?php endforeach; ?>
     </table>
 
-<? endif;?>
+<?php endif;
+dump($this->photos);
+echo $this->paginationControl($this->photos,
+    'Sliding',
+    'application/partial/paginator',
+    ['route' => 'albums/alb', 'idAlbum'=>$album->getId()]
+);
+
+?>

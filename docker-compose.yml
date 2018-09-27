@@ -36,8 +36,9 @@ services:
       dockerfile: Dockerfile #Билдим dockerfile указав директорию где он лежит
     volumes:
     - .:/var/www/html # чтобы пхп увидел все .php
-    - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf #  чтобы повысить memory_limit
-    #- ./.docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini #линкуем доп настройки пхп (вывод ошибок+макс.размер загруж файла+часов.пояс)
+    - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf #чтобы повысить memory_limit
+    - ./docker/php/my.ini:/usr/local/etc/php/php.ini #линкуем доп настройки пхп (вывод ошибок+макс.размер загруж файла+часов.пояс)
+    - ./docker/php/my1.ini:/usr/local/etc/php/сonf.d/my1.ini #линкуем доп настройки пхп (вывод ошибок+макс.размер загруж файла+часов.пояс)
     #- ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini #линкуем конфиги xdebug
     depends_on:
     - db

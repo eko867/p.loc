@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Этот класс представляет собой автора альбома
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Gallery\Repository\PhotoRepository")
  * @ORM\Table(name="photo")
  */
 

@@ -12,7 +12,9 @@ RUN apt update && apt install -y \
     libpq-dev \
     libxpm-dev \
     libvpx-dev \
+    libxml2-dev \
   && docker-php-ext-install -j$(nproc) intl \
   && docker-php-ext-install -j$(nproc) zip \
   && docker-php-ext-install -j$(nproc) pdo_mysql \
   && docker-php-ext-install -j$(nproc) exif \
+  && docker-php-ext-install -j$(nproc) dom \
